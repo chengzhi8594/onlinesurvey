@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+	<title>Admin Survey Report</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js" crossorigin="anonymous"></script>
+<body>
+<div class="container">
+	<h1>Survey Report</h1>
+	Total surveys: <%= total_survey_count %> <br>
+	<h3>Gender:</h3>
+	Total male: <%= count("gender\":[\"male\"]") %> <br>
+	Total female: <%= count("gender\":[\"female\"]") %> <br>
+	Total other: <%= count("gender\":[\"other\"]") %> <br>
+	<canvas id="genderChart"></canvas>
+	<script>
+	var ctx = document.getElementById('genderChart').getContext('2d');
+	var genderChart = new Chart(ctx, {
+			type: 'doughnut',
+			data: {
+					labels: ['Male', 'Female', 'Other'],
+					datasets: [{
+							label: '# of surveys',
+							data: [<%= count("gender\":[\"male\"]") %>,  <%= count("gender\":[\"female\"]") %>, <%= count("gender\":[\"other\"]") %>],
+							backgroundColor: [
+									'rgba(54, 162, 235, 0.2)',
+									'rgba(255, 99, 132, 0.2)',
+									'rgba(255, 206, 86, 0.2)',
+							],
+							borderColor: [
+									'rgba(54, 162, 235, 1)',
+									'rgba(255, 99, 132, 1)',
+									'rgba(255, 206, 86, 1)',
+							],
+							borderWidth: 1
+					}]
+			},
+			options: {
+					scales: {
+							yAxes: [{
+									ticks: {
+											beginAtZero: true
+									}
+							}]
+					}
+			}
+	});
+	</script>
+	<h3>Age:</h3>
+	Total under 18: <%= count("age\":[\"under 18\"]") %> <br>
+	Total 18-24: <%= count("age\":[\"18-24\"]") %> <br>
+	Total 25-44: <%= count("age\":[\"25-44\"]") %> <br>
+	Total 45-60: <%= count("age\":[\"45-60\"]") %> <br>
+	Total over 60: <%= count("age\":[\"over 60\"]") %> <br>
+	<canvas id="ageChart"></canvas>
+	<script>
+	var ctx = document.getElementById('ageChart').getContext('2d');
+	var ageChart = new Chart(ctx, {
+			type: 'bar',
+			data: {
+					labels: ['under 18', '18-24', '25-44', '45-60', 'over 60'],
+					datasets: [{
+							label: '# of surveys',
+							data: [<%= count("age\":[\"under 18\"]") %>,
+							  <%= count("age\":[\"18-24\"]") %> , 
+							  <%= count("age\":[\"25-44\"]") %> , 
+							  <%= count("age\":[\"45-60\"]") %>,
+							  <%= count("age\":[\"over 60\"]") %>],
+							backgroundColor: [
+									'rgba(54, 162, 235, 0.2)',
+									'rgba(255, 99, 132, 0.2)',
+									'rgba(255, 206, 86, 0.2)',
+									'rgba(75, 192, 192, 0.2)',
+									'rgba(153, 102, 255, 0.2)',
+									'rgba(255, 159, 64, 0.2)'
+							],
+							borderColor: [
+									'rgba(54, 162, 235, 1)',
+									'rgba(255, 99, 132, 1)',
+									'rgba(255, 206, 86, 1)',
+									'rgba(75, 192, 192, 1)',
+									'rgba(153, 102, 255, 1)',
+									'rgba(255, 159, 64, 1)'
+							],
+							borderWidth: 1
+					}]
+			},
+			options: {
+					scales: {
+							yAxes: [{
+									ticks: {
+											beginAtZero: true
+									}
+							}]
+					}
+			}
+	});
+	</script>
+	<h3>Do you like watching movie online?:</h3>
+	Total 1 - Really like: <%= count("rating\":[\"1 - Really like\"]") %> <br>
+	Total 2 - Like: <%= count("rating\":[\"2 - Like\"]") %> <br>
+	Total 3 - Neither like nor dislike: <%= count("rating\":[\"3 - Neither like nor dislike\"]") %> <br>
+	Total 4 - Dislike: <%= count("rating\":[\"4 - Dislike\"]") %> <br>
+	Total 5 - Really dislike: <%= count("rating\":[\"5 - Really dislike\"]") %> <br>
+	<canvas id="ratingChart"></canvas>
+	<script>
+	var ctx = document.getElementById('ratingChart').getContext('2d');
+	var ratingChart = new Chart(ctx, {
+			type: 'bar',
+			data: {
+					labels: ['1 - Really like', '2 - Like', '3 - Neither like nor dislike', '4 - Dislike', '5 - Really dislike'],
+					datasets: [{
+							label: '# of surveys',
+							data: [<%= count("rating\":[\"1 - Really like\"]") %>,
+							  <%= count("rating\":[\"2 - Like\"]") %> , 
+							  <%= count("rating\":[\"3 - Neither like nor dislike\"]") %> , 
+							  <%= count("rating\":[\"4 - Dislike\"]") %>,
+							  <%= count("rating\":[\"5 - Really dislike\"]") %>],
+							backgroundColor: [
+									'rgba(54, 162, 235, 0.2)',
+									'rgba(255, 99, 132, 0.2)',
+									'rgba(255, 206, 86, 0.2)',
+									'rgba(75, 192, 192, 0.2)',
+									'rgba(153, 102, 255, 0.2)',
+									'rgba(255, 159, 64, 0.2)'
+							],
+							borderColor: [
+									'rgba(54, 162, 235, 1)',
+									'rgba(255, 99, 132, 1)',
+									'rgba(255, 206, 86, 1)',
+									'rgba(75, 192, 192, 1)',
+									'rgba(153, 102, 255, 1)',
+									'rgba(255, 159, 64, 1)'
+							],
+							borderWidth: 1
+					}]
+			},
+			options: {
+					scales: {
+							yAxes: [{
+									ticks: {
+											beginAtZero: true
+									}
+							}]
+					}
+			}
+	});
+	</script>
+
+	<h3>What platform do you use most?:</h3>
+	Total 1 - Nextflix: <%= count("platform\":[\"1 - Nextflix\"]") %> <br>
+	Total 2 - Amazon Prime: <%= count("platform\":[\"2 - Amazon Prime\"]") %> <br>
+	Total 3 - Youtube: <%= count("platform\":[\"3 - Youtube\"]") %> <br>
+	Total 4 - Others: <%= count("platform\":[\"4 - Others\"]") %> <br>
+	Total 5 - Don't use any platform: <%= count("platform\":[\"5 - No use any platform\"]") %> <br>
+	<canvas id="platformChart"></canvas>
+	<script>
+	var ctx = document.getElementById('platformChart').getContext('2d');
+	var ratingChart = new Chart(ctx, {
+			type: 'bar',
+			data: {
+					labels: ['1 - Nextflix', '2 - Amazon Prime', '3 - Youtube', '4 - Others', '5 - No use any platform'],
+					datasets: [{
+							label: '# of surveys',
+							data: [<%= count("platform\":[\"1 - Nextflix\"]") %>,
+							  <%= count("platform\":[\"2 - Amazon Prime\"]") %> , 
+							  <%= count("platform\":[\"3 - Youtube\"]") %> , 
+							  <%= count("platform\":[\"4 - Others\"]") %>,
+							  <%= count("platform\":[\"5 - No use any platform\"]") %>],
+							backgroundColor: [
+									'rgba(54, 162, 235, 0.2)',
+									'rgba(255, 99, 132, 0.2)',
+									'rgba(255, 206, 86, 0.2)',
+									'rgba(75, 192, 192, 0.2)',
+									'rgba(153, 102, 255, 0.2)',
+									'rgba(255, 159, 64, 0.2)'
+							],
+							borderColor: [
+									'rgba(54, 162, 235, 1)',
+									'rgba(255, 99, 132, 1)',
+									'rgba(255, 206, 86, 1)',
+									'rgba(75, 192, 192, 1)',
+									'rgba(153, 102, 255, 1)',
+									'rgba(255, 159, 64, 1)'
+							],
+							borderWidth: 1
+					}]
+			},
+			options: {
+					scales: {
+							yAxes: [{
+									ticks: {
+											beginAtZero: true
+									}
+							}]
+					}
+			}
+	});
+	</script>
+</div class="container">
+</body>
+</html>
+
